@@ -17,5 +17,26 @@ def sort1(data):
 
 sort1(example_data)
 
+def sort2(data):
+    bigger = []
+    equal = []
+    smaller = []
 
+    if len(data) > 1:
+        choice = data[0]
+
+        for element in data:
+            if element < choice:
+                smaller.append(element)
+            elif element == choice:
+                equal.append(element)
+            elif element > choice:
+                bigger.append(element)
+
+        return sort2(smaller) + equal + sort2(bigger)
+    else:
+        return data
+
+
+print(sort2(example_data))
 
