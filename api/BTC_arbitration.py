@@ -10,16 +10,16 @@ def sort(data):
     for i in range(len(data)):
         for j in range(len(data)):
             if data[i][0] < data[j][0]:
-                temp = data[i][0]
-                data[i][0] = data[j][0]
-                data[j][0] = temp
+                temp = data[i]
+                data[i] = data[j]
+                data[j]= temp
 def revsort(data):
     for i in range(len(data)):
         for j in range(len(data)):
             if data[i][0] > data[j][0]:
-                temp = data[i][0]
-                data[i][0] = data[j][0]
-                data[j][0] = temp
+                temp = data[i]
+                data[i] = data[j]
+                data[j] = temp
 
 def buy_sell():
     URL_BIFINEX_ORDERBOOK = 'https://api.bitfinex.com/v1/book/btcusd'
@@ -89,6 +89,8 @@ def buy_sell():
 
     revsort(offers['SELL'])
     sort(offers['BUY'])
+    print(offers['BUY'])
+    print(offers['SELL'])
 
 
     if len(offers['SELL']) == 0:
