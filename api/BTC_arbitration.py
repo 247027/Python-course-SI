@@ -141,13 +141,13 @@ def buy_sell():
                                 offers['SELL'].pop(i)
                             else:
                                 offers['BUY'].pop(i)
-                                offers['SELL'].pop(i)
+
                     else:
                         offers['BUY'].pop(i)
-                        offers['SELL'].pop(i)
+
                 else:
                     break
-                    
+
             elif offers['SELL'][i][1] > offers['BUY'][i][1]:
                 if offers['SELL'][i][0] > offers['BUY'][i][0]:
                     profit = offers['SELL'][i][0]*offers['BUY'][i][1] - offers['BUY'][i][0] * offers['BUY'][i][1] * offers['BUY'][i][3]
@@ -204,9 +204,9 @@ def buy_sell():
                                 earnings.append(profit)
                                 offers['SELL'].pop(i)
                             else:
-                                offers['SELL'].pop(i)
+                                offers['BUY'].pop(i)
                     else:
-                        offers['SELL'].pop(i)
+                        offers['BUY'].pop(i)
                 else:
                     break
         profit = round(sum(earnings), 3)
@@ -216,6 +216,7 @@ def buy_sell():
               'Bifinex budget:', round(budget['Bitfinex'],3),'\n',
               'Bittrex budget:', round(budget['Bittrex'],3),'\n',
               'Bitstamp budget:', round(budget['Bitstamp'],3))
+
     return()
 
 buy_sell()
