@@ -118,9 +118,10 @@ def compare_avarage(URL_BITABY_TICKER, URL_BITFINEX_TICKER):
     return
 
 def marekt_information():
-    bitbay_offers_show(URL_BIBAY_ORDERBOOK)
-    compare_avarage(URL_BITABY_TICKER, URL_BITFINEX_TICKER)
-    compare_best_prices(URL_BIFINEX_ORDERBOOK, URL_BIBAY_ORDERBOOK)
-
+    while True:
+        bitbay_offers_show(URL_BIBAY_ORDERBOOK)
+        compare_avarage(URL_BITABY_TICKER, URL_BITFINEX_TICKER)
+        compare_best_prices(URL_BIFINEX_ORDERBOOK, URL_BIBAY_ORDERBOOK)
+        time.sleep(5)
     return
 marekt_information()
