@@ -39,74 +39,121 @@ def pct_change(data):
     return df_pct_change
 
 
-interwals = [[-1, 0], [0, 0], [0, 1], [1, 2], [2, 4], [4, 8], [8, 12], [12, 20], [20, 150], [150, 1000]]
+negative_interwals = [-1, -0.85], [-0.85, -0.5],[-0.5, 0]
+positive_interwals =  [0, 0.5], [0.5, 1], [1, 1.5], [1.5 , 2], [2, 4], [4, 8], [8, 12], [12, 20]
+interwals = negative_interwals + positive_interwals
 
 
-def probability_facotr(data, interwals):
+def probability(data,interwals):
     probability = {str(interwals[0]): [], str(interwals[1]): [], str(interwals[2]): [], str(interwals[3]): [],
                    str(interwals[4]): [], str(interwals[5]): [],
-                   str(interwals[6]): [], str(interwals[7]): [], str(interwals[8]): [], str(interwals[9]): [], }
+                   str(interwals[6]): [], str(interwals[7]): [], str(interwals[8]): [], str(interwals[9]): [],
+                   str(interwals[10]): []}
 
+    count_positive = 0
+    count_negative = 0
     for i in range(len(data)):
         for j in range(len(interwals)):
-            if data[i] > interwals[j][0] and data[i] <= interwals[j][1]:
+            if data[i] >= interwals[j][0] and data[i] < interwals[j][1]:
                 probability[str(interwals[j])].append(data[i])
+                break
+        if data[i] < 0:
+            count_negative += 1
+        else:
+            count_positive +=1
+
+    growth_probability = count_positive/len(data)
+    fall_probability = count_negative/len(data)
+
+
 
     for i in range(len(interwals)):
-        probability[str(interwals[i])] = len(probability[str(interwals[i])]) / len(data)
+        if interwals[i][0] < 0:
+            probability[str(interwals[i])] = round(len(probability[str(interwals[i])]) / count_negative,3)
+        else:
+            probability[str(interwals[i])] = round(len(probability[str(interwals[i])]) / count_positive,2)
 
-    compartments = probability
+    compartments = {str(interwals[0]): [], str(interwals[1]): [], str(interwals[2]): [], str(interwals[3]): [],
+                   str(interwals[4]): [], str(interwals[5]): [],
+                   str(interwals[6]): [], str(interwals[7]): [], str(interwals[8]): [], str(interwals[9]): [],
+                   str(interwals[10]): []}
+
     for i in range(len(interwals)):
-        if i == 0:
+        if i == 0 and interwals[i][0] < 0:
             compartments[str(interwals[i])] = [0, probability[str(interwals[i])]]
+        elif interwals[i - 1][0] < 0 and interwals[i][0] >= 0:
+            compartments[str(interwals[i])] = [0, probability[str(interwals[i])]]
+
         else:
             compartments[str(interwals[i])] = [compartments[str(interwals[i - 1])][1],
                                                compartments[str(interwals[i - 1])][1] + probability[str(interwals[i])]]
 
-            if compartments[str(interwals[i])][1] == 1.0:
+            if compartments[str(interwals[i])][1] == 1.0 and interwals[i][0] >= 0:
                 break
 
-    x = random.random()
-    result = None
-    for i in range(len(interwals)):
-        if compartments[str(interwals[i])][1] == 1.0:
-            result = random.uniform(float(interwals[i][0]), float(interwals[i][1]))
-            break
-        if x > compartments[str(interwals[i])][0] and x <= compartments[str(interwals[i])][1]:
-            result = random.uniform(float(interwals[i][0]), float(interwals[i][1]))
-            break
 
-        elif x == 0:
-            result = random.uniform(float(interwals[0][0]), float(interwals[0][1]))
-            break
+    return compartments,growth_probability,probability
+
+
+
+def get_result(compartments):
+    result = None
+    x= random.uniform(0,1)
+    if x >= 0 and x <= compartments[1]:
+        x = random.uniform(0,1)
+        for i in range(len(interwals)):
+            if interwals[i][0] < 0:
+                pass
+            else:
+                if compartments[0][str(interwals[i])][1] == 1.0:
+                    result = random.uniform(float(interwals[i][0]), float(interwals[i][1]))
+                    break
+                if x > compartments[0][str(interwals[i])][0] and x <= compartments[0][str(interwals[i])][1]:
+                    result = random.uniform(float(interwals[i][0]), float(interwals[i][1]))
+                    break
+
+                elif x == 0:
+                    result = random.uniform(float(interwals[0][0]), float(interwals[0][1]))
+                    break
+    else:
+        x = random.uniform(0,1)
+        for i in range(len(interwals)):
+            if interwals[i][0] >=0:
+                break
+            if compartments[0][str(interwals[i])][1] == 1.0:
+                result = random.uniform(float(interwals[i][0]), float(interwals[i][1]))
+                break
+            if x > compartments[0][str(interwals[i])][0] and x <= compartments[0][str(interwals[i])][1]:
+                result = random.uniform(float(interwals[i][0]), float(interwals[i][1]))
+                break
+
+            elif x == 0:
+                result = random.uniform(float(interwals[0][0]), float(interwals[0][1]))
+                break
 
     return result
 
 
-def symulation(number_of_days, number_of_symulations, data,currency,market):
-    api_data = get_data(from_start_date, finish_date, currency,market, 86400)
-    data = []
-    for i in range(len(api_data['items'])):
-        data.append(float(api_data['items'][i][1]['v']))
 
+
+
+def symulation(number_of_days, number_of_symulations, data,currency,market):
     pct_change_data = pct_change(data)
     last_value = data[-1]
-
+    compartments = probability(pct_change_data,interwals)
     simulation_df = pd.DataFrame()
 
     for i in range(number_of_symulations):
         count = 0
-        factor = probability_facotr(pct_change_data, interwals)
         data_series = []
-
+        factor=get_result(compartments)
         value = last_value * (1 + factor)
         data_series.append(value)
 
         for j in range(number_of_days):
             if count == number_of_days - 1:
                 break
-
-            factor = probability_facotr(pct_change_data, interwals)
+            factor = get_result(compartments)
             value = data_series[count] * (1 + factor)
             data_series.append(value)
             count += 1
