@@ -1,0 +1,26 @@
+1) który z symulowanych wykresów (i dlaczego) okazał się bliższy rzeczywistości, jak to zmierzyliście (zamieścić dane dotyczące podobieństwa).
+2) Jak wybrany okres symulacji powinien wpływać na dokładność symulacji i jak wpłynął w Waszym przypadku?
+
+1)
+a) Ze względu na ilość wolumenu bliższy okazał się wykres - pojedynczej symulacji, ponieważ odległości od prawiwego wolumeny dla wykresu pojedynczej symulacji są mniejsze niż dla wyykresu wielu symulacji, co przedstawiają poniższe dane.
+
+Odległość od prawdziwego wyniku dla pojedynczej symulacji
+[18.28627342999971, 525.0205759399996, 158.3498501199997, 508.7732454100001, 798.2544614899998, 2626.77867487, 3328.66480632, 119.5483763100001, 1690.95541668, 261.32551791000014, 1613.1559494699995]
+
+Odległość od prawidziwego wyniku dla wielu symulacji
+ [745.9362734300003, 2960.2905759399996, 3620.6498501199994, 3088.6332454099997, 2999.89446149, 3263.76132513, 2158.00519368, 3624.99162369, 5621.695416680001, 4887.84551791, 4789.53594947]
+
+b) Ze względu na whania procentowe  bliższy okazał się wykres wielu symulacji. Wykres wielu symulacji w lepszym stopniu odwzorowywał wahania procentowe w  stosunku do orygynalnego wykresu.
+
+wynik ujemny - symulowany przyrost był większy od oryginalnego danego dnia
+wynik dodatni - symulowany przyrost był mniejszy od oryginalnego danego dnia
+pożadane wyniki jak nabliżej 0.
+
+Dane dla wykresu pojedynczej symulacji
+ [0, -0.11024626479521982, 0.10881342978643382, -0.1196043328089127, -0.06734425402642619, 0.8607001146449628, 0.06281400893689781, -1.9362333869917274, -0.5959363811339662, 0.7412550031362243, -0.4101450538482525]
+
+Dane dla wykresu wielu symulacji
+ [0, -0.46886895712325327, -0.13407863338174342, 0.16136885191526462, 0.072536552542249, 0.0032381303281989737, 0.2782018520736248, -0.32302830461328536, -0.5251536805081694, 0.6136105075144134, 0.05308729797477696]
+
+2)
+Dłuższy okres zbierania danych sprawia, że symulacja jest dokładniejsza. Natomiast wydłużenie okresu symulowanego  powoduje zmniejszenie dokładności symulacji.
