@@ -9,8 +9,8 @@ import numpy as np
 
 currencies = ['BTC', 'ETH', 'BCC']
 markets = ['PLN']
-from_start_date = (2019, 5, 20)  # ( int(input('input YEAR')), int(input('input MONTH')), int(input('input DAY')))
-finish_date = (2020, 5, 22)  # ( int(input('input YEAR')), int(input('input MONTH')), int(input('input DAY')))
+from_start_date =  (int(input('input YEAR')), int(input('input MONTH')), int(input('input DAY')))
+finish_date = (int(input('input YEAR')), int(input('input MONTH')), int(input('input DAY')))
 
 
 def time_converter(date):
@@ -193,13 +193,13 @@ def main_program(number_of_days, number_of_symulations,currency,market):
         data_2.append(statistic_data_2['mean'][0][i])
 
     average2 = np.average(data_2)
-    data_1 = data + data_1
-    data_2 = data + data_2
-    x = np.arange(0, len(data_1), 1)
+    x = pd.date_range(start=dt.datetime(finish_date[0], finish_date[1], finish_date[2]) + dt.timedelta(days=1),
+                      end=dt.datetime(finish_date[0], finish_date[1], finish_date[2])+ dt.timedelta(days=number_of_days))
     plt.title("Symulation of volume " + str(currency) + '-' + str(market))
     plt.plot(x, data_1, label='single sim')
     plt.plot(x, data_2, label='multiple sim')
     plt.axhline(y=average2, color='r', linestyle='-', label='avg of multiple sim')
+    plt.gcf().autofmt_xdate()
     plt.xlabel('Days')
     plt.ylabel('Volume')
     plt.legend()
