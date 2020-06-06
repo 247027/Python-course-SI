@@ -11,9 +11,9 @@ from math import fabs
 currencies = ['BTC', 'ETH', 'BCC']
 markets = ['PLN']
 start_collecting_data_date = (2019, 5, 15)  # ( int(input('input YEAR')), int(input('input MONTH')), int(input('input DAY')))
-finish_collecting_data_date = (2020, 5, 15)  # ( int(input('input YEAR')), int(input('input MONTH')), int(input('input DAY')))4
+finish_collecting_data_date = (2020, 5, 15)  # ( int(input('input YEAR')), int(input('input MONTH')), int(input('input DAY')))
 resolution = 86400
-end_of_symulation_date = (2020, 5, 26)
+end_of_symulation_date = (2020, 5, 26)  # ( int(input('input YEAR')), int(input('input MONTH')), int(input('input DAY')))
 number_of_days = int(abs((dt.date(end_of_symulation_date[0], end_of_symulation_date[1], end_of_symulation_date[2]) - dt.date(finish_collecting_data_date[0], finish_collecting_data_date[1],finish_collecting_data_date[2])).days))
 number_of_symulations = 100
 
@@ -203,14 +203,15 @@ def charts(number_of_days, number_of_symulations, todays_date, currency, market)
         data_1[i] = round(data_1[i], 2)
         data_2[i] = round(data_2[i], 2)
     average = symulation_data[2]
-    x = pd.date_range(start=dt.datetime(finish_collecting_data_date[0], finish_collecting_data_date[1], finish_collecting_data_date[2] + 1),
+    x = pd.date_range(start=dt.datetime(finish_collecting_data_date[0], finish_collecting_data_date[1], finish_collecting_data_date[2])  + dt.timedelta(days=1),
                       end=dt.datetime(todays_date[0], todays_date[1], todays_date[2]))
-    plt.title("Symulation of volume ")  # + str(currency) + '-' + str(market))
+    plt.title("Symulation of volume"  + str(currency) + '-' + str(market))
     plt.plot(x, data_1, label='single sim')
     plt.plot(x, data_2, label='multiple sim')
     plt.plot(x, oryginal_data, label='oryginal_data')
     plt.axhline(y=average, color='r', linestyle='-', label='avg of multiple sim')
     plt.axhline(y=np.mean(data_1), color='black', linestyle='-', label='avg of single sim')
+    plt.gcf().autofmt_xdate()
     plt.xlabel('Days')
     plt.ylabel('Volume')
     plt.legend()
